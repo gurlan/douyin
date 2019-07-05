@@ -65,13 +65,33 @@ Page({
             console.log('链接成功')
         })
 
+
+        setInterval(() => {
+            let str ='ping,ping'
+            wsTask.send({
+                data:str,
+                success:function () {
+                    console.log('ping 发送成功')
+                },
+                fail:function(res){
+                    console.log(res)
+                },
+                complete:function () {
+                    console.log(333333)
+                }
+            })
+
+        }, 5000)
+
         wsTask.onMessage((res) => {
             console.log('接收到消息',res)
-            let danmu = {
-                text:res.data,
-                color:'#ff00ff'
+            if (res.data!='ping'){
+                let danmu = {
+                    text:res.data,
+                    color:'#ff00ff'
+                }
+                that.vvideo.sendDanmu(danmu)
             }
-            that.vvideo.sendDanmu(danmu)
         })
 
         this.getVideos()
@@ -482,6 +502,10 @@ Page({
             // })
             return false
         }
+
+
+
+
 
         //websocket 发送
         var param = that.data.contentId+','+that.data.inputValue

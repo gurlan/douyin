@@ -13,6 +13,14 @@ page {
 .userinfo-avatar {
   width: 100rpx;
   height: 100rpx;
-  margin: 20rpx;
+  margin: 200rpx;
   border-radius: 50%;
+}
+
+/* 昵称  */
+.userinfo-nickname {
+  width: 160rpx;
+  height: 100rpx;
+  margin: 20rpx;
+  text-align:center
 }

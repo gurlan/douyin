@@ -24,6 +24,12 @@ Page({
                             app.globalData.userInfo = res.rawData
 
                             Http.HttpRequst(false, 'auth/register', false, '', res, 'POST', false, function (result) {
+                                if (res.code==100401){
+                                    wx.setStorageSync('openid', '')
+                                    wx.redirectTo({
+                                        url: '/pages/index/index'
+                                    })
+                                }
                                 wx.setStorageSync('openid', result.result.openid)
                                 app.globalData.token = result.result.openid
                                 wx.redirectTo({
