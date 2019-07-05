@@ -57,7 +57,7 @@ Page({
      */
     onLoad: function () {
         // 滑动
-
+        let that =this
         wsTask = wx.connectSocket({
             url: 'wss://www.gitlay.com'
         })
@@ -66,7 +66,12 @@ Page({
         })
 
         wsTask.onMessage((res) => {
-            console.log(res)
+            console.log('接收到消息',res)
+            let danmu = {
+                text:res.data,
+                color:'#ff00ff'
+            }
+            that.vvideo.sendDanmu(danmu)
         })
 
         this.getVideos()
@@ -162,6 +167,7 @@ Page({
         this.setData({
             percent: percent.toFixed(2)
         })
+        this.currentTime = e.detail.currentTime
     },
     onReady: function () {
         this.vvideo = wx.createVideoContext("kdvideo", this)
@@ -361,6 +367,8 @@ Page({
         const like = that.data.likeNum
 
 
+      //  that.data.videos[index].love=1;
+
         Http.HttpRequst(false, 'index/addUserLike?id=' + params.id, false, '', params, 'POST', false, function (res) {
 
             if (res.code == 200) {
@@ -458,6 +466,8 @@ Page({
             inputValue: e.detail.value
         })
     },
+
+
     /**
      * 点击评论视频
      */
@@ -473,11 +483,17 @@ Page({
             return false
         }
 
+        //websocket 发送
         var param = that.data.contentId+','+that.data.inputValue
         wsTask.send({
             data:param,
             success:function () {
-                console.log(2222)
+                let danmu = {
+                    text:that.data.inputValue,
+                    color:'#ff00ff'
+                }
+                that.vvideo.sendDanmu(danmu)
+                console.log('websocket 发送成功')
             },
             fail:function(res){
                 console.log(res)
@@ -489,7 +505,8 @@ Page({
 
         var params = {
             contentId: that.data.contentId,
-            cont: that.data.inputValue
+            cont: that.data.inputValue,
+            videoTime:this.currentTime
         }
 
         Http.HttpRequst(false, 'index/addComment', false, '', params, 'POST', false, function (res) {
@@ -506,6 +523,7 @@ Page({
                 that.setData({
                     [commnetnum]: parseInt(that.data.commnetNum) + parseInt(1)
                 })
+
                 that.getCommentList()
                 console.log('评论成功')
             } else if (res.code == 1001) {

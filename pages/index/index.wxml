@@ -12,7 +12,7 @@
       <!-- 弹出组件  -->
     <modal title='给明星送金币(个)' gold="{{gold}}" id="modalShow"  multiline='true' bindinputCancel='onInputCancel' bindinputConfirm='onInputConfirm' wx:if='{{ addingText }}'/>
 
-    <video class="vvideo" bindtimeupdate="bindtimeupdate" id="kdvideo" bindtouchstart="touchStart" bindtouchend="touchEnd" bindtouchcancel="touchCancel"  binderror="binderror" autoplay="{{autoplay}}" objectFit="cover" hidden="{{animationShow}}" src="{{videos[videoIndex].videoUrl}}" bindplay="bindplay" controls="{{controls}}" loop="true">
+    <video class="vvideo" bindtimeupdate="bindtimeupdate" id="kdvideo" bindtouchstart="touchStart" bindtouchend="touchEnd" bindtouchcancel="touchCancel"  binderror="binderror" autoplay="{{autoplay}}" objectFit="cover" hidden="{{animationShow}}" src="{{videos[videoIndex].videoUrl}}"  danmu-list="{{videos[videoIndex].comment}}" bindplay="bindplay" controls="{{controls}}" enable-danmu    loop="true">
       <cover-view class="tools">
         <cover-view class='user-image'>
           <cover-image class="userinfo-avatar" wx:if="{{!videos[videoIndex].icon && !userData.headPic}}" data-lecturerId="{{videos[videoIndex].lecturerId}}" catchtap='goUserHome' src="/assets/image/userImage.png"></cover-image>
@@ -23,11 +23,11 @@
           <cover-image class="userinfo-add" wx:if="{{videos[videoIndex].isfans == 0}}" src="/assets/image/add.png" data-index="{{videoIndex}}" data-lecturerId="{{videos[videoIndex].lecturerId}}" catchtap='addLecturerFans'></cover-image>
           <cover-image class="userinfo-add" wx:else src="/assets/image/guanzhu.png" data-index="{{videoIndex}}" data-lecturerId="{{videos[videoIndex].lecturerId}}" catchtap='delLecturerFans'></cover-image>
         </cover-view>
-       <!--   <cover-view>
-          <cover-image class="icon right-icon" data-likeNum="{{videos[videoIndex].likenum}}"  data-index="{{videoIndex}}" data-videoId="{{videos[videoIndex].id}}"  wx:if="{{1}}" src='/assets/image/start.png' catchtap='doubleTap'></cover-image>
+        <cover-view>
+          <cover-image class="icon right-icon" data-likeNum="{{videos[videoIndex].likenum}}"  data-index="{{videoIndex}}" data-videoId="{{videos[videoIndex].id}}"  wx:if="{{videos[videoIndex].isLike<1}}"   src='/assets/image/start.png' catchtap='doubleTap'></cover-image>
           <cover-image class="icon right-icon" wx:else src='/assets/image/active.png'></cover-image>
           <cover-view class="text">{{videos[videoIndex].likenum}}</cover-view>
-        </cover-view> -->
+        </cover-view>
         <cover-view catchtap='showTalks' data-videoId="{{videos[videoIndex].id}}" data-commnetnum="{{videos[videoIndex].commnetnum}}">
           <cover-image class="icon right-icon" src='/assets/image/content.png'></cover-image>
           <cover-view class="text">{{videos[videoIndex].commnetnum}}</cover-view>
